@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ovning5_Garage_1.Models
+namespace Ovning5_Garage_1.Vehicles
 {
     public class Motorcycle : Vehicle
     {
@@ -15,5 +15,10 @@ namespace Ovning5_Garage_1.Models
         }
 
         public string Type { get; set; }
+
+        public override string ToString()
+        {
+            return $"{base.ToString()} Type: {Type}";
+        }
     }
 }

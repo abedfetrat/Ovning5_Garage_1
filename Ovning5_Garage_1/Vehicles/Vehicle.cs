@@ -4,8 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ovning5_Garage_1.Models
+namespace Ovning5_Garage_1.Vehicles
 {
+    /// <summary>
+    /// Basklassen som alla Vehicle typer ärver från
+    /// </summary>
     public class Vehicle : IVehicle
     {
         public Vehicle(string registrationNumber, string make, string model, int year, string color, int numberOfWheels, double price)
@@ -27,6 +30,10 @@ namespace Ovning5_Garage_1.Models
         public int NumberOfWheels { get; set; }
         public double Price { get; set; }
 
+        public override string ToString()
+        {
+            return $"Registration Number: {RegistrationNumber}, Make: {Make}, Model: {Model}, Year: {Year}, Color: {Color}, Number of Wheels: {NumberOfWheels}, Price: {Price:C}";
+        }
     }
 
 }

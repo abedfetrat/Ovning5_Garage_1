@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ovning5_Garage_1.Models
+namespace Ovning5_Garage_1.Vehicles
 {
     public class Airplane : Vehicle
     {
@@ -15,5 +15,10 @@ namespace Ovning5_Garage_1.Models
         }
 
         public int NumberOfEngines { get; set; }
+
+        public override string ToString()
+        {
+            return $"{base.ToString()} Number of Engines: {NumberOfEngines}";
+        }
     }
 }

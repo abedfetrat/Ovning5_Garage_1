@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ovning5_Garage_1.Models
+namespace Ovning5_Garage_1.Vehicles
 {
     public class Car : Vehicle
     {
@@ -18,5 +18,10 @@ namespace Ovning5_Garage_1.Models
         //public int NumberOfDoors { get; set; }
         //public int NumberOfSeats { get; set; }
         //public bool IsConvertible { get; set; }
+
+        public override string ToString()
+        {
+            return $"{base.ToString()} Fuel Type: {FuelType}";
+        }
     }
 }

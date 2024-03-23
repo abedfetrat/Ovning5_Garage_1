@@ -4,8 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ovning5_Garage_1.Models
+namespace Ovning5_Garage_1.Vehicles
 {
+    /// <summary>
+    /// Interfacet som Vehicle basklassen måste implementera
+    /// </summary>
     public interface IVehicle
     {
         string RegistrationNumber { get; set; }

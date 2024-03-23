@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ovning5_Garage_1.Models
+namespace Ovning5_Garage_1.Vehicles
 {
     public class Bus : Vehicle
 
@@ -16,5 +16,10 @@ namespace Ovning5_Garage_1.Models
         }
 
         public int PassengerCapacity { get; set; }
+
+        public override string ToString()
+        {
+            return $"{base.ToString()} Passenger Capacity: {PassengerCapacity}";
+        }
     }
 }
