@@ -15,10 +15,10 @@ namespace Ovning5_Garage_1.Garage
     public class Garage<T> : IEnumerable<T> where T : IVehicle
     {
         private T[] parkingSpaces;
-        // Håller koll på antalet använda parkeringsplatser. Används för att undvika att retunera null i GetEnumerator metoden.
+        /// Håller koll på antalet använda parkeringsplatser. Används för att undvika att retunera null i GetEnumerator metoden.
         private int count;
 
-        public Garage(string name, int capacity)
+        public Garage(string name, uint capacity)
         {
             Name = name;
             Capacity = capacity;
@@ -27,7 +27,7 @@ namespace Ovning5_Garage_1.Garage
         }
 
         public string Name { get; set; }
-        public int Capacity { get; }
+        public uint Capacity { get; }
         /// <summary>
         /// Lägger till fordonet i garaget.
         /// </summary>
@@ -35,7 +35,7 @@ namespace Ovning5_Garage_1.Garage
         /// <returns><c>true</c> om garaget har utrymme och fordonet kunnat läggas till; annars <c>false</c></returns>
         public bool Park(T vehicle)
         {
-            if (count < parkingSpaces.Length)
+            if (count < parkingSpaces.Length && !IsParked(vehicle.RegistrationNumber))
             {
                 parkingSpaces[count] = vehicle;
                 count++;
@@ -54,11 +54,38 @@ namespace Ovning5_Garage_1.Garage
             {
                 if (parkingSpaces[i] != null && parkingSpaces[i].Equals(vehicle))
                 {
-                    parkingSpaces[i] = default(T);
+                    ShiftParkingSpacesToLeft(i);
                     return true;
                 }
             }
             return false;
+        }
+        /// <summary>
+        /// Flyttar alla fordon i parkingSpaces till början av arrayen. Används vid borttagning av fordon.
+        /// På detta sätt undviker vi null värden när garaget itereras.
+        /// </summary>
+        /// <param name="indexToRemove">Index i parkingSpaces för det element som ska tas bort</param>
+        private void ShiftParkingSpacesToLeft(int indexToRemove)
+        {
+            for (int i = indexToRemove; i < count; i++)
+            {
+                parkingSpaces[i] = parkingSpaces[i + 1];
+            }
+            count--;
+        }
+
+        private bool IsParked(string registrationNumber)
+        {
+            bool isParked = false;
+
+            for (int i = 0; i < count; i++)
+            {
+                IVehicle vehicle = parkingSpaces[i];
+                if (vehicle.RegistrationNumber == registrationNumber)
+                    isParked = true;
+            }
+
+            return isParked;
         }
 
         public IEnumerator<T> GetEnumerator()

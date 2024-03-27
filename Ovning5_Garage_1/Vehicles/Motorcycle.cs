@@ -9,16 +9,16 @@ namespace Ovning5_Garage_1.Vehicles
     public class Motorcycle : Vehicle
     {
         public Motorcycle(string registrationNumber, string make, string model, int year, string color, int numberOfWheels, double price, string type)
-            : base(registrationNumber, make, model, year, color, numberOfWheels, price)
+            : base(VehicleType.Motorcycle, registrationNumber, make, model, year, color, numberOfWheels, price)
         {
-            Type = type;
+            MotorcycleType = type;
         }
 
-        public string Type { get; set; }
+        public string MotorcycleType { get; set; }
 
         public override string ToString()
         {
-            return $"{base.ToString()} Type: {Type}";
+            return $"{base.ToString()}\nMotorcycle Type: {MotorcycleType}";
         }
     }
 }

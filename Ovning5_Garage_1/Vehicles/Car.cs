@@ -9,7 +9,7 @@ namespace Ovning5_Garage_1.Vehicles
     public class Car : Vehicle
     {
         public Car(string registrationNumber, string make, string model, int year, string color, int numberOfWheels, double price, string fuelType)
-            : base(registrationNumber, make, model, year, color, numberOfWheels, price)
+            : base(VehicleType.Car, registrationNumber, make, model, year, color, numberOfWheels, price)
         {
             FuelType = fuelType;
         }
@@ -21,7 +21,7 @@ namespace Ovning5_Garage_1.Vehicles
 
         public override string ToString()
         {
-            return $"{base.ToString()} Fuel Type: {FuelType}";
+            return $"{base.ToString()}\nFuel Type: {FuelType}";
         }
     }
 }

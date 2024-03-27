@@ -1,0 +1,11 @@
+{
+    "configurations": [
+        {
+            "name": "C#: Ovning5_Garage_1",
+            "type": "dotnet",
+            "request": "launch",
+            "projectPath": "${workspaceFolder}\\Ovning5_Garage_1\\Ovning5_Garage_1.csproj",
+            "launchConfigurationId": "TargetFramework=;Ovning5_Garage_1"
+        }
+    ]
+}

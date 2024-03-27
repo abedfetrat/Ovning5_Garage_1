@@ -9,7 +9,7 @@ namespace Ovning5_Garage_1.Vehicles
     public class Airplane : Vehicle
     {
         public Airplane(string registrationNumber, string make, string model, int year, string color, int numberOfWheels, double price, int numberOfEngines)
-            : base(registrationNumber, make, model, year, color, numberOfWheels, price)
+            : base(VehicleType.Airplane, registrationNumber, make, model, year, color, numberOfWheels, price)
         {
             NumberOfEngines = numberOfEngines;
         }
@@ -18,7 +18,7 @@ namespace Ovning5_Garage_1.Vehicles
 
         public override string ToString()
         {
-            return $"{base.ToString()} Number of Engines: {NumberOfEngines}";
+            return $"{base.ToString()}\nNumber of Engines: {NumberOfEngines}";
         }
     }
 }

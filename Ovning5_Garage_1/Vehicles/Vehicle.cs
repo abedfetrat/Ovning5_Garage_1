@@ -11,8 +11,9 @@ namespace Ovning5_Garage_1.Vehicles
     /// </summary>
     public class Vehicle : IVehicle
     {
-        public Vehicle(string registrationNumber, string make, string model, int year, string color, int numberOfWheels, double price)
+        public Vehicle(VehicleType type, string registrationNumber, string make, string model, int year, string color, int numberOfWheels, double price)
         {
+            Type = type;
             RegistrationNumber = registrationNumber;
             Make = make;
             Model = model;
@@ -22,6 +23,7 @@ namespace Ovning5_Garage_1.Vehicles
             Price = price;
         }
 
+        public VehicleType Type { get; set; }
         public string RegistrationNumber { get; set; }
         public string Make { get; set; }
         public string Model { get; set; }
@@ -32,7 +34,7 @@ namespace Ovning5_Garage_1.Vehicles
 
         public override string ToString()
         {
-            return $"Registration Number: {RegistrationNumber}, Make: {Make}, Model: {Model}, Year: {Year}, Color: {Color}, Number of Wheels: {NumberOfWheels}, Price: {Price:C}";
+            return $"Vehicle Type: {Type}\nRegistration Number: {RegistrationNumber}\nMake: {Make}\nModel: {Model}\nYear: {Year}\nColor: {Color}\nNumber of Wheels: {NumberOfWheels}\nPrice: {Price:C}";
         }
     }
 

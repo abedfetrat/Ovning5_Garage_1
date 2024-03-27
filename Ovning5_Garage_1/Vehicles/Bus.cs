@@ -10,7 +10,7 @@ namespace Ovning5_Garage_1.Vehicles
 
     {
         public Bus(string registrationNumber, string make, string model, int year, string color, int numberOfWheels, double price, int passengerCapacity)
-            : base(registrationNumber, make, model, year, color, numberOfWheels, price)
+            : base(VehicleType.Bus, registrationNumber, make, model, year, color, numberOfWheels, price)
         {
             PassengerCapacity = passengerCapacity;
         }
@@ -19,7 +19,7 @@ namespace Ovning5_Garage_1.Vehicles
 
         public override string ToString()
         {
-            return $"{base.ToString()} Passenger Capacity: {PassengerCapacity}";
+            return $"{base.ToString()}\nPassenger Capacity: {PassengerCapacity}";
         }
     }
 }

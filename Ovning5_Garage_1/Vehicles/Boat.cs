@@ -9,7 +9,7 @@ namespace Ovning5_Garage_1.Vehicles
     public class Boat : Vehicle
     {
         public Boat(string registrationNumber, string make, string model, int year, string color, int numberOfWheels, double price, string propulsionType)
-            : base(registrationNumber, make, model, year, color, numberOfWheels, price)
+            : base(VehicleType.Boat, registrationNumber, make, model, year, color, numberOfWheels, price)
         {
             PropulsionType = propulsionType;
         }
@@ -18,7 +18,7 @@ namespace Ovning5_Garage_1.Vehicles
 
         public override string ToString()
         {
-            return $"{base.ToString()} Propulsion Type: {PropulsionType}";
+            return $"{base.ToString()}\nPropulsion Type: {PropulsionType}";
         }
     }
 }
