@@ -25,9 +25,7 @@ namespace Ovning5_Garage_1
 
         public void Start()
         {
-            //StartGarageCreationFlow();
-            garageHandler.CreateGarage("Abed's Garage", 100, true);
-            DisplayMainMenu();
+            StartGarageCreationFlow();
         }
 
         private void Exit()
@@ -92,6 +90,7 @@ namespace Ovning5_Garage_1
                     AddVehicleToGarage();
                     break;
                 case "6":
+                    RemoveVehicleFromGarage();
                     break;
                 case "Q":
                 case "q":
@@ -273,6 +272,22 @@ namespace Ovning5_Garage_1
             }
 
             ui.PromptForAnyKey("\nPress any key to go back to the main menu...");
+        }
+
+        private void RemoveVehicleFromGarage()
+        {
+            ui.Clear();
+
+            string regNumber = ui.PromptForText("Enter the registration number of the vehicle you want to remove");
+
+            bool removed = garageHandler.RemoveVehicleByRegistrationNumber(regNumber);
+
+            if (removed)
+                ui.DisplayText("\nVehicle removed from the garage!");
+            else
+                ui.DisplayText("\nThere are no vehicles with that registration number parked in the garage.");
+
+            ui.PromptForAnyKey("\nPress any key to go back to main menu...");
         }
 
     }

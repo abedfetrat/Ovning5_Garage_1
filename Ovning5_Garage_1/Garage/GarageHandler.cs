@@ -71,6 +71,12 @@ namespace Ovning5_Garage_1.Garage
             return myGarage.Remove(vehicle);
         }
 
+        public bool RemoveVehicleByRegistrationNumber(string registrationNumber)
+        {
+            IVehicle? vehicle = GetVehicleByRegistrationNumber(registrationNumber);
+            return myGarage.Remove(vehicle);
+        }
+
         public IVehicle[] GetAllVehicles()
         {
             return [.. myGarage];
