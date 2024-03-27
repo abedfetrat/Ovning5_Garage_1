@@ -15,7 +15,7 @@ namespace Ovning5_Garage_1
         private string header = "--------------------------- GARAGE MANAGER ---------------------------\n";
 
         private ConsoleUI ui;
-        private GarageHandler garageHandler;
+        private IHandler garageHandler;
 
         public App()
         {

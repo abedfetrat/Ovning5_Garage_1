@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ovning5_Garage_1.UI
 {
-    public class ConsoleUI
+    public class ConsoleUI : IUI
     {
         public ConsoleUI(string appTitle)
         {

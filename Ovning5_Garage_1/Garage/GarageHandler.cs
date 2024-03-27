@@ -12,7 +12,7 @@ using System.Xml.Linq;
 
 namespace Ovning5_Garage_1.Garage
 {
-    public class GarageHandler
+    public class GarageHandler : IHandler
     {
         private Garage<IVehicle> myGarage;
 
