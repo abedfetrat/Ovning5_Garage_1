@@ -81,8 +81,13 @@ namespace Ovning5_Garage_1.Garage
             for (int i = 0; i < count; i++)
             {
                 IVehicle vehicle = parkingSpaces[i];
-                if (vehicle.RegistrationNumber == registrationNumber)
+                if (string.Equals(vehicle.RegistrationNumber,
+                    registrationNumber,
+                    StringComparison.OrdinalIgnoreCase))
+                {
                     isParked = true;
+                }
+
             }
 
             return isParked;

@@ -32,14 +32,16 @@ namespace Ovning5_Garage_1.UI
             Console.Clear();
         }
 
-        public string PromptForText(string prompt)
+        public string PromptForText(string prompt, int minLength = 1, int maxLength = int.MaxValue)
         {
             string? input;
+            bool valid;
             do
             {
                 Console.Write($"{prompt}: ");
                 input = Console.ReadLine();
-            } while (input == null);
+                valid = input != null && input.Length >= minLength && input.Length <= maxLength;
+            } while (!valid);
 
             return input;
         }

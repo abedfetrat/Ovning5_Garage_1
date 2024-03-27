@@ -34,7 +34,7 @@ namespace Ovning5_Garage_1.Vehicles
 
         public override string ToString()
         {
-            return $"Vehicle Type: {Type}\nRegistration Number: {RegistrationNumber}\nMake: {Make}\nModel: {Model}\nYear: {Year}\nColor: {Color}\nNumber of Wheels: {NumberOfWheels}\nPrice: {Price:C}";
+            return $"Vehicle Type: {Type}\nRegistration Number: {RegistrationNumber.ToUpper()}\nMake: {Make}\nModel: {Model}\nYear: {Year}\nColor: {Color}\nNumber of Wheels: {NumberOfWheels}\nPrice: {Price:C}";
         }
     }
 

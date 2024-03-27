@@ -25,9 +25,9 @@ namespace Ovning5_Garage_1
 
         public void Start()
         {
-            StartGarageCreationFlow();
-            //garageHandler.CreateGarage("Abed's Garage", 100, true);
-            //DisplayMainMenu();
+            //StartGarageCreationFlow();
+            garageHandler.CreateGarage("Abed's Garage", 100, true);
+            DisplayMainMenu();
         }
 
         private void Exit()
@@ -89,6 +89,7 @@ namespace Ovning5_Garage_1
                     FindVehiclesByProperties();
                     break;
                 case "5":
+                    AddVehicleToGarage();
                     break;
                 case "6":
                     break;
@@ -99,6 +100,15 @@ namespace Ovning5_Garage_1
             }
 
             DisplayMainMenu();
+        }
+
+        private void DisplayVehicles(IVehicle[] vehicles)
+        {
+            for (int i = 0; i < vehicles.Length; i++)
+            {
+                ui.DisplayText($"{i + 1}.\n{vehicles[i]}\n" +
+                "\n----------------------------------------\n");
+            }
         }
 
         private void DisplayAllVehiclesInGarage()
@@ -156,43 +166,43 @@ namespace Ovning5_Garage_1
 
             Dictionary<string, object> filters = [];
 
-            string vehicleType = ui.PromptForText("Vehicle Type (Airplane, Boat, Car, Bus, Motorcycle)");
-            if (!string.IsNullOrWhiteSpace(vehicleType) && Enum.TryParse(vehicleType, out VehicleType type))
+            string vehicleType = ui.PromptForText("Vehicle Type (Airplane, Boat, Car, Bus, Motorcycle)", minLength: 0);
+            if (!string.IsNullOrWhiteSpace(vehicleType) && Enum.TryParse(vehicleType, true, out VehicleType type))
             {
                 filters.Add("Type", type);
             }
 
-            string regNumber = ui.PromptForText("Registration Number");
+            string regNumber = ui.PromptForText("Registration Number", minLength: 0);
             if (!string.IsNullOrWhiteSpace(regNumber))
             {
                 filters.Add("RegistrationNumber", regNumber);
             }
 
-            string model = ui.PromptForText("Model");
+            string model = ui.PromptForText("Model", minLength: 0);
             if (!string.IsNullOrWhiteSpace(model))
             {
                 filters.Add("Model", model);
             }
 
-            string year = ui.PromptForText("Year");
+            string year = ui.PromptForText("Year", minLength: 0);
             if (!string.IsNullOrWhiteSpace(year) && int.TryParse(year, out int actual))
             {
                 filters.Add("Year", actual);
             }
 
-            string color = ui.PromptForText("Color");
+            string color = ui.PromptForText("Color", minLength: 0);
             if (!string.IsNullOrWhiteSpace(color))
             {
                 filters.Add("Color", color);
             }
 
-            string numberOfWheels = ui.PromptForText("Number of Wheels");
+            string numberOfWheels = ui.PromptForText("Number of Wheels", minLength: 0);
             if (!string.IsNullOrWhiteSpace(numberOfWheels) && int.TryParse(numberOfWheels, out int numberOfWheelsValue))
             {
                 filters.Add("NumberOfWheels", numberOfWheelsValue);
             }
 
-            string price = ui.PromptForText("Price");
+            string price = ui.PromptForText("Price", minLength: 0);
             if (!string.IsNullOrWhiteSpace(price) && double.TryParse(price, out double priceValue))
             {
                 filters.Add("Price", priceValue);
@@ -208,13 +218,62 @@ namespace Ovning5_Garage_1
             ui.PromptForAnyKey("Press any key to go back to main menu...");
         }
 
-        private void DisplayVehicles(IVehicle[] vehicles)
+        private void AddVehicleToGarage()
         {
-            for (int i = 0; i < vehicles.Length; i++)
+            ui.Clear();
+
+            string[] options = Enum.GetNames(typeof(VehicleType));
+            string type = ui.PromptForOption($"What type of vehicle do you want to park? ({string.Join(", ", options)})", options);
+
+            Enum.TryParse(type, true, out VehicleType vehicleType);
+
+            string regNumber = ui.PromptForText("Registration Number");
+            string make = ui.PromptForText("Make");
+            string model = ui.PromptForText("Model");
+            int year = ui.PromptForIntegerNumber("Year", min: 0);
+            string color = ui.PromptForText("Color");
+            int numberOfWheels = ui.PromptForIntegerNumber("Number of Wheels", min: 0);
+            double price = ui.PromptForDecimalNumber("Price");
+
+            IVehicle vehicle = null;
+
+            if (vehicleType == VehicleType.Airplane)
             {
-                ui.DisplayText($"{i + 1}.\n{vehicles[i]}\n" +
-                "\n----------------------------------------\n");
+                int numberOfEngines = ui.PromptForIntegerNumber("Number of Engines", min: 0);
+                vehicle = new Airplane(regNumber, make, model, year, color, numberOfWheels, price, numberOfEngines);
             }
+            else if (vehicleType == VehicleType.Boat)
+            {
+                string propulsionType = ui.PromptForText("Propulsion Type");
+                vehicle = new Boat(regNumber, make, model, year, color, numberOfWheels, price, propulsionType);
+            }
+            else if (vehicleType == VehicleType.Bus)
+            {
+                int passengerCapacity = ui.PromptForIntegerNumber("Propulsion Type", min: 0);
+                vehicle = new Bus(regNumber, make, model, year, color, numberOfWheels, price, passengerCapacity);
+            }
+            else if (vehicleType == VehicleType.Car)
+            {
+                string fuelType = ui.PromptForText("Fuel Type");
+                vehicle = new Car(regNumber, make, model, year, color, numberOfWheels, price, fuelType);
+            }
+            else if (vehicleType == VehicleType.Motorcycle)
+            {
+                string motorcycleType = ui.PromptForText("Motorcycle Type");
+                vehicle = new Motorcycle(regNumber, make, model, year, color, numberOfWheels, price, motorcycleType);
+            }
+
+            if (vehicle != null)
+            {
+                bool parked = garageHandler.ParkVehicle(vehicle);
+                if (parked)
+                    ui.DisplayText("\nThe vehicle was parked in the garage!");
+                else
+                    ui.DisplayText("\nCould not park the vehicle. Either the garage is full or there is already a vehicle with the same registration number parked.");
+            }
+
+            ui.PromptForAnyKey("\nPress any key to go back to the main menu...");
         }
+
     }
 }
