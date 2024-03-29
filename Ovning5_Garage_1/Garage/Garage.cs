@@ -4,9 +4,9 @@ using System.Collections;
 namespace Ovning5_Garage_1.Garage
 {
     /// <summary>
-    /// Garage collection that can hold vehicle types that implement IVehicle.
+    /// A collection that can store vehicles of type T that implement IVehicle.
     /// </summary>
-    /// <typeparam name="T">A vehicle type that implements IVehicle.</typeparam>
+    /// <typeparam name="T">Vehicle type that implements IVehicle</typeparam>
     public class Garage<T> : IEnumerable<T> where T : IVehicle
     {
         private readonly T[] parkingSpaces;
@@ -22,6 +22,23 @@ namespace Ovning5_Garage_1.Garage
         public string Name { get; set; }
         public uint Capacity { get; }
         public int NumUsedSpaces { get; private set; }
+
+        public bool IsParked(string registrationNumber)
+        {
+            for (int i = 0; i < parkingSpaces.Length; i++)
+            {
+                T vehicle = parkingSpaces[i];
+                if (vehicle != null && string.Equals(vehicle.RegistrationNumber,
+                    registrationNumber,
+                    StringComparison.OrdinalIgnoreCase))
+                {
+                    return true;
+                }
+
+            }
+
+            return false;
+        }
 
         public bool Park(T vehicle)
         {
@@ -59,7 +76,7 @@ namespace Ovning5_Garage_1.Garage
         {
             for (int i = 0; i < parkingSpaces.Length; i++)
             {
-                IVehicle vehicle = parkingSpaces[i];
+                T vehicle = parkingSpaces[i];
                 if (vehicle != null && string.Equals(vehicle.RegistrationNumber,
                     registrationNumber,
                     StringComparison.OrdinalIgnoreCase))
@@ -73,21 +90,21 @@ namespace Ovning5_Garage_1.Garage
             return false;
         }
 
-        public bool IsParked(string registrationNumber)
+        public T? GetVehicleWithRegistrationNumber(string registrationNumber)
         {
             for (int i = 0; i < parkingSpaces.Length; i++)
             {
-                IVehicle vehicle = parkingSpaces[i];
+                T vehicle = parkingSpaces[i];
                 if (vehicle != null && string.Equals(vehicle.RegistrationNumber,
                     registrationNumber,
                     StringComparison.OrdinalIgnoreCase))
                 {
-                    return true;
+                    return vehicle;
                 }
 
             }
 
-            return false;
+            return default;
         }
 
         public IEnumerator<T> GetEnumerator()

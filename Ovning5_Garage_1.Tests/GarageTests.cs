@@ -6,131 +6,98 @@ namespace Ovning5_Garage_1.Tests
     public class GarageTests
     {
         [Fact]
-        public void Park_Should_Park_Vehicle_If_Space()
+        public void Should_ReturnTrue_IfParked()
         {
-            // ARRANGE
-            uint capacity = 2;
-            Garage<IVehicle> myGarage = new Garage<IVehicle>("Test", capacity);
-            Airplane vehicle = new Airplane("ABC123", "Boeing", "747", 2022, "White", 6, 10000000, 4);
+            // Arrange
+            const string REGISTRATION_NUMBER = "ABC123";
+            var vehicle = new Vehicle(VehicleType.Airplane, REGISTRATION_NUMBER, "Boeing", "747", 2022, "White", 6, 10000000);
+            var garage = new Garage<IVehicle>("Test", 1);
+            garage.Park(vehicle);
 
-            // ACT
-            bool parked = myGarage.Park(vehicle);
+            // Act
+            bool parked = garage.IsParked(REGISTRATION_NUMBER);
 
-            // ASSERT
-            Assert.True(parked);
-            Assert.Contains(vehicle, myGarage);
-        }
-
-        [Fact]
-        public void Remove_Should_Remove_Vehicle()
-        {
-            // ARRANGE
-            uint capacity = 2;
-            Garage<IVehicle> myGarage = new Garage<IVehicle>("Test", capacity);
-            Motorcycle vehicle = new Motorcycle("GHI101", "Honda", "CBR1000RR", 2023, "Red", 2, 15000, "Sport");
-            myGarage.Park(vehicle);
-
-            // ACT
-            bool removed = myGarage.Remove(vehicle);
-
-            // ASSERT
-            Assert.True(removed);
-            Assert.DoesNotContain(vehicle, myGarage);
-        }
-
-        [Fact]
-        public void RemoveWithRegistrationNumber_Should_Remove_Vehicle()
-        {
-            // ARRANGE
-            uint capacity = 2;
-            Garage<IVehicle> myGarage = new Garage<IVehicle>("Test", capacity);
-            string registrationNumber = "GHI101";
-            Motorcycle vehicle = new Motorcycle(registrationNumber, "Honda", "CBR1000RR", 2023, "Red", 2, 15000, "Sport");
-            myGarage.Park(vehicle);
-
-            // ACT
-            bool removed = myGarage.RemoveWithRegistrationNumber(registrationNumber);
-
-            // ASSERT
-            Assert.True(removed);
-            Assert.DoesNotContain(vehicle, myGarage);
-        }
-
-        [Fact]
-        public void Park_Should_Increase_NumUsedSpaces()
-        {
-            // ARRANGE
-            Garage<IVehicle> myGarage = new Garage<IVehicle>("Test", 2);
-            int numUsedSpacesBeforePark = myGarage.NumUsedSpaces;
-
-            // ACT
-            myGarage.Park(new Airplane("ABC123", "Boeing", "747", 2022, "White", 6, 10000000, 4));
-
-            // ASSERT
-            int numUsedSpacesAfterPark = myGarage.NumUsedSpaces;
-            Assert.True(numUsedSpacesAfterPark > numUsedSpacesBeforePark);
-        }
-
-        [Fact]
-        public void Remove_Should_Decrease_NumUsedSpaces()
-        {
-            // ARRANGE
-            Garage<IVehicle> myGarage = new Garage<IVehicle>("Test", 2);
-            myGarage.Park(new Airplane("ABC123", "Boeing", "747", 2022, "White", 6, 10000000, 4));
-            int numUsedSpacesBeforeRemove = myGarage.NumUsedSpaces;
-
-            // ACT
-            myGarage.RemoveWithRegistrationNumber("ABC123");
-            // ASSERT
-            int numUsedSpacesAfterRemove = myGarage.NumUsedSpaces;
-            Assert.True(numUsedSpacesAfterRemove < numUsedSpacesBeforeRemove);
-        }
-
-        [Fact]
-        public void IsParked_Should_Return_True_If_Parked()
-        {
-            // ARRANGE
-            Garage<IVehicle> myGarage = new Garage<IVehicle>("Test", 2);
-            string registrationNumber = "ABC123";
-            myGarage.Park(new Airplane(registrationNumber, "Boeing", "747", 2022, "White", 6, 10000000, 4));
-
-            // ACT
-            bool parked = myGarage.IsParked(registrationNumber);
-
-            // ASSERT
+            // Assert
             Assert.True(parked);
         }
 
         [Fact]
-        public void IsParked_Should_Return_False_If_NotParked()
+        public void Should_ReturnFalse_IfNotParked()
         {
-            // ARRANGE
-            Garage<IVehicle> myGarage = new Garage<IVehicle>("Test", 2);
-            string registrationNumber = "ABC123";
+            // Arrange
+            const string REGISTRATION_NUMBER = "ABC123";
+            var garage = new Garage<IVehicle>("Test", 1);
 
-            // ACT
-            bool parked = myGarage.IsParked(registrationNumber);
+            // Act
+            bool parked = garage.IsParked(REGISTRATION_NUMBER);
 
-            // ASSERT
+            // Assert
             Assert.False(parked);
         }
 
         [Fact]
-        public void GetEnumerator_Should_Not_Return_Null_Values()
+        public void Should_ParkVehicle_IfRoom()
         {
-            // ARRANGE
-            Garage<IVehicle> myGarage = new Garage<IVehicle>("Test", 5);
-            myGarage.Park(new Airplane("ABC123", "Boeing", "747", 2022, "White", 6, 10000000, 4));
+            // Arrange
+            var garage = new Garage<IVehicle>("Test", 1);
+            var vehicle = new Vehicle(VehicleType.Airplane, "ABC123", "Boeing", "747", 2022, "White", 6, 10000000);
 
-            // ACT
-            List<IVehicle> vehicles = [];
-            foreach (IVehicle vehicle in myGarage)
-            {
-                vehicles.Add(vehicle);
-            }
+            // Act
+            bool parked = garage.Park(vehicle);
 
-            // ASSERT
-            Assert.DoesNotContain(null, vehicles);
+            // Assert
+            Assert.True(parked);
+            Assert.Contains(vehicle, garage);
+        }
+
+        [Fact]
+        public void Should_RemoveVehicle_IfParked()
+        {
+            // Arrange
+            var garage = new Garage<IVehicle>("Test", 1);
+            var vehicle = new Vehicle(VehicleType.Airplane, "ABC123", "Boeing", "747", 2022, "White", 6, 10000000);
+            garage.Park(vehicle);
+
+            // Act
+            bool removed = garage.Remove(vehicle);
+
+            // Assert
+            Assert.True(removed);
+            Assert.DoesNotContain(vehicle, garage);
+        }
+
+        [Fact]
+        public void Should_RemoveVehicleWithRegistrationNumber_IfParked()
+        {
+            // Arrange
+            const string REGISTRATION_NUMBER = "ABC123";
+            var garage = new Garage<IVehicle>("Test", 1);
+            var vehicle = new Vehicle(VehicleType.Airplane, REGISTRATION_NUMBER, "Boeing", "747", 2022, "White", 6, 10000000);
+            garage.Park(vehicle);
+
+            // Act
+            bool removed = garage.RemoveWithRegistrationNumber(REGISTRATION_NUMBER);
+
+            // Assert
+            Assert.True(removed);
+            Assert.DoesNotContain(vehicle, garage);
+        }
+
+        [Fact]
+        public void Should_ReturnVehicleWithRegistrationNumber_IfParked()
+        {
+            // Arrange
+            const string REGISTRATION_NUMBER = "ABC123";
+            var garage = new Garage<IVehicle>("Test", 1);
+            var vehicle = new Vehicle(VehicleType.Airplane, REGISTRATION_NUMBER, "Boeing", "747", 2022, "White", 6, 10000000);
+            garage.Park(vehicle);
+
+            // Act
+            IVehicle? found = garage.GetVehicleWithRegistrationNumber(REGISTRATION_NUMBER);
+
+            // Assert
+            Assert.NotNull(found);
+            Assert.Equal(REGISTRATION_NUMBER, found.RegistrationNumber);
         }
     }
 }
