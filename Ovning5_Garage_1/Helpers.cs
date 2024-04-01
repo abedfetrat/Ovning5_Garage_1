@@ -1,22 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Ovning5_Garage_1
+﻿namespace Ovning5_Garage_1
 {
-    public static class Utils
+    public static class Helpers
     {
         public static bool MatchesProperties<T>(T obj, Dictionary<string, object> properties)
         {
             return properties.All(property =>
             {
-                var propInfo = obj.GetType().GetProperty(property.Key);
+                var propInfo = obj?.GetType().GetProperty(property.Key);
                 return propInfo != null &&
                        propInfo.GetValue(obj) != null &&
                        PropertyValueMatches(
-                           propInfo.GetValue(obj),
+                           propInfo.GetValue(obj)!,
                            property.Value,
                            StringComparison.OrdinalIgnoreCase);
             });

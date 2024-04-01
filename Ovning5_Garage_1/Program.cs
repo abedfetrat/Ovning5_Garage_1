@@ -4,8 +4,8 @@
     {
         static void Main(string[] args)
         {
-            App app = new App();
-            app.Start();
+            Manager mgr = new Manager();
+            mgr.Start();
         }
     }
 }

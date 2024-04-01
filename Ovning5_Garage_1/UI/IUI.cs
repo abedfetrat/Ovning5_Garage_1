@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Ovning5_Garage_1.Vehicles;
 
 namespace Ovning5_Garage_1.UI
 {
     public interface IUI
     {
-        public void DisplayText(string text, bool inline = false);
-
         public void DisplayText(string text);
+
+        public void DisplayHeader(string title);
+
+        public void DisplayMenu(Menu menu);
+
+        public void ListVehicles(IVehicle[] vehicles);
 
         public void Clear();
 
@@ -22,9 +22,7 @@ namespace Ovning5_Garage_1.UI
 
         public string PromptForOption(string prompt, string[] options);
 
-        public bool PromptForYesOrNoOption(string prompt);
-
-        public bool PromptForAnyKey(string prompt);
+        public char PromptForAnyKey(string prompt);
 
     }
 }

@@ -1,30 +1,58 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Ovning5_Garage_1.Vehicles;
 
 namespace Ovning5_Garage_1.UI
 {
     public class ConsoleUI : IUI
     {
-        public ConsoleUI(string appTitle)
+        public string Header { get; set; }
+
+        public ConsoleUI(string appTitle, string header)
         {
             Console.Title = appTitle;
-        }
-
-        public void DisplayText(string text, bool inline = false)
-        {
-            if (inline)
-                Console.Write(text);
-            else
-                Console.WriteLine(text);
-
+            Header = header;
         }
 
         public void DisplayText(string text)
         {
             Console.WriteLine(text);
+        }
+
+        public void DisplayHeader(string title)
+        {
+            Console.Clear();
+            Console.WriteLine($"{Header}\n");
+            Console.WriteLine($"{title}\n");
+        }
+
+        public void DisplayMenu(Menu menu)
+        {
+            DisplayHeader(menu.Title);
+
+            foreach (var item in menu.Items)
+            {
+                Console.WriteLine($"{item.Key}. {item.Title}");
+            }
+
+            Console.Write($"\n{menu.Prompt}: ");
+
+            string? input = Console.ReadLine();
+
+            MenuItem? menuItem = menu.Items.Where(item => string.Equals(item.Key, input, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
+
+            if (menuItem != null)
+            {
+                menuItem.Action();
+            }
+
+            DisplayMenu(menu);
+        }
+
+        public void ListVehicles(IVehicle[] vehicles)
+        {
+            for (int i = 0; i < vehicles.Length; i++)
+            {
+                Console.WriteLine($"{i + 1}.\n{vehicles[i]}\n" + "\n----------------------------------------\n");
+            }
         }
 
         public void Clear()
@@ -43,20 +71,20 @@ namespace Ovning5_Garage_1.UI
                 valid = input != null && input.Length >= minLength && input.Length <= maxLength;
             } while (!valid);
 
-            return input;
+            return input!;
         }
 
         public int PromptForIntegerNumber(string prompt, int min = int.MinValue, int max = int.MaxValue)
         {
             int number;
-            bool valid;
+            bool parsed;
             do
             {
                 Console.Write($"{prompt}: ");
                 string? input = Console.ReadLine();
-                valid = int.TryParse(input, out number) && number >= min && number <= max;
+                parsed = int.TryParse(input, out number) && number >= min && number <= max;
 
-            } while (!valid);
+            } while (!parsed);
 
             return number;
         }
@@ -87,21 +115,14 @@ namespace Ovning5_Garage_1.UI
                 valid = option != null && options.Any(opt => opt.Equals(option, StringComparison.OrdinalIgnoreCase));
             } while (!valid);
 
-            return option;
+            return option!;
         }
 
-        public bool PromptForYesOrNoOption(string prompt)
-        {
-            string[] options = ["y", "n", "yes", "no"];
-            string option = PromptForOption(prompt, options);
-            return option == "y" || option == "yes";
-        }
-
-        public bool PromptForAnyKey(string prompt)
+        public char PromptForAnyKey(string prompt)
         {
             Console.Write(prompt);
-            Console.ReadLine();
-            return true;
+            ConsoleKeyInfo key = Console.ReadKey();
+            return key.KeyChar;
         }
     }
 }

@@ -1,14 +1,4 @@
 ﻿using Ovning5_Garage_1.Vehicles;
-using Ovning5_Garage_1;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.ConstrainedExecution;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace Ovning5_Garage_1.Garage
 {
@@ -18,32 +8,32 @@ namespace Ovning5_Garage_1.Garage
 
         public GarageHandler()
         {
-            myGarage = new Garage<IVehicle>("Default", 0);
+            myGarage = GetDefaultGarage();
         }
 
-        public void CreateGarage(string garageName, uint garageCapacity, bool shouldPopulateGarage)
+        private Garage<IVehicle> GetDefaultGarage()
         {
-            myGarage = new Garage<IVehicle>(garageName, garageCapacity);
-            if (shouldPopulateGarage)
-            {
-                populateGarage();
-            }
-        }
-
-        private void populateGarage()
-        {
-            IVehicle[] dummyVehicles = [
+            IVehicle[] vehicles = [
                 new Car("KEX587", "Toyota", "Auris", 2009, "Grey", 4, 40000, "Petrol"),
                 new Airplane("ABC123", "Boeing", "747", 2022, "White", 6, 10000000, 4),
                 new Boat("XYZ456", "SeaRay", "Sundancer", 2023, "Blue", 0, 50000, "Outboard"),
                 new Bus("DEF789", "Volvo", "XC60", 2024, "Yellow", 6, 80000, 50),
                 new Motorcycle("GHI101", "Honda", "CBR1000RR", 2023, "Red", 2, 15000, "Sport")
-            ];
+           ];
 
-            foreach (IVehicle vehicle in dummyVehicles)
+            var garage = new Garage<IVehicle>("Default Garage", 10);
+
+            foreach (var vehicle in vehicles)
             {
-                myGarage.Park(vehicle);
+                garage.Park(vehicle);
             }
+
+            return garage;
+        }
+
+        public void InitGarage(string garageName, uint garageCapacity)
+        {
+            myGarage = new Garage<IVehicle>(garageName, garageCapacity);
         }
 
         public string GetGarageName()
@@ -56,9 +46,13 @@ namespace Ovning5_Garage_1.Garage
             return (int)myGarage.Capacity;
         }
 
+        public bool GetHasRoom() {
+            return myGarage.HasRoom();
+        }
+
         public int GetNumberOfVehiclesInGarage()
         {
-            return myGarage.Count();
+            return myGarage.NumUsedSpaces;
         }
 
         public bool ParkVehicle(IVehicle vehicle)
@@ -73,8 +67,7 @@ namespace Ovning5_Garage_1.Garage
 
         public bool RemoveVehicleByRegistrationNumber(string registrationNumber)
         {
-            IVehicle? vehicle = GetVehicleByRegistrationNumber(registrationNumber);
-            return myGarage.Remove(vehicle);
+            return myGarage.RemoveWithRegistrationNumber(registrationNumber);
         }
 
         public IVehicle[] GetAllVehicles()
@@ -84,10 +77,7 @@ namespace Ovning5_Garage_1.Garage
 
         public IVehicle? GetVehicleByRegistrationNumber(string registrationNumber)
         {
-            return myGarage.FirstOrDefault(vehicle =>
-                string.Equals(vehicle.RegistrationNumber,
-                    registrationNumber,
-                    StringComparison.OrdinalIgnoreCase));
+           return myGarage.GetVehicleWithRegistrationNumber(registrationNumber);
         }
 
         public Dictionary<VehicleType, int> GetVehicleTypes()
@@ -101,7 +91,7 @@ namespace Ovning5_Garage_1.Garage
 
         public IVehicle[] GetVehiclesByProperties(Dictionary<string, object> properties)
         {
-            return myGarage.Where(vehicle => Utils.MatchesProperties(vehicle, properties)).ToArray();
+            return myGarage.Where(vehicle => Helpers.MatchesProperties(vehicle, properties)).ToArray();
         }
     }
 }

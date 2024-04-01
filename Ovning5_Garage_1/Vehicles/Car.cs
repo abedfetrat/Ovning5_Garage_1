@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Ovning5_Garage_1.Vehicles
+﻿namespace Ovning5_Garage_1.Vehicles
 {
     public class Car : Vehicle
     {
@@ -15,9 +9,6 @@ namespace Ovning5_Garage_1.Vehicles
         }
 
         public string FuelType { get; set; }
-        //public int NumberOfDoors { get; set; }
-        //public int NumberOfSeats { get; set; }
-        //public bool IsConvertible { get; set; }
 
         public override string ToString()
         {

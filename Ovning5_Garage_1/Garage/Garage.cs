@@ -23,6 +23,10 @@ namespace Ovning5_Garage_1.Garage
         public uint Capacity { get; }
         public int NumUsedSpaces { get; private set; }
 
+        public bool HasRoom() {
+            return NumUsedSpaces < Capacity;
+        }
+
         public bool IsParked(string registrationNumber)
         {
             for (int i = 0; i < parkingSpaces.Length; i++)
@@ -109,7 +113,7 @@ namespace Ovning5_Garage_1.Garage
 
         public IEnumerator<T> GetEnumerator()
         {
-            for (int i = 0; i < NumUsedSpaces; i++)
+            for (int i = 0; i < parkingSpaces.Length; i++)
             {
                 if (parkingSpaces[i] != null)
                 {

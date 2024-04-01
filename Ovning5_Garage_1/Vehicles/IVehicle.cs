@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Ovning5_Garage_1.Vehicles
+﻿namespace Ovning5_Garage_1.Vehicles
 {
     /// <summary>
-    /// Interfacet som Vehicle basklassen måste implementera
+    /// The interface that the Vehicle base class must implement
     /// </summary>
     public interface IVehicle
     {

@@ -1,21 +1,18 @@
 ﻿using Ovning5_Garage_1.Vehicles;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ovning5_Garage_1.Garage
 {
     public interface IHandler
     {
-        public void CreateGarage(string name, uint capacity, bool shouldPopulate);
+        public void InitGarage(string name, uint capacity);
         
         public string GetGarageName();
 
         public int GetGarageCapacity();
 
         public int GetNumberOfVehiclesInGarage();
+
+        public bool GetHasRoom();
 
         public bool ParkVehicle(IVehicle vehicle);
 

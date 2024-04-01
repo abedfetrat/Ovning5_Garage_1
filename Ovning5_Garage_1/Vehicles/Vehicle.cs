@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Ovning5_Garage_1.Vehicles
+﻿namespace Ovning5_Garage_1.Vehicles
 {
     /// <summary>
-    /// Basklassen som alla Vehicle typer ärver från
+    /// Base class that all the Vehicle types derrive from
     /// </summary>
     public class Vehicle : IVehicle
     {
